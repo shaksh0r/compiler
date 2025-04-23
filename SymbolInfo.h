@@ -6,15 +6,13 @@
 #include<iostream>
 
 using namespace std;
-
 class symbolInfo{
     private:
     string symbolName;
     string symbolType;
-    symbolInfo* nextSymbol;
 
     public:
-
+    symbolInfo* nextSymbol;
     symbolInfo(string symbolName,string symbolType){
         this->symbolName = symbolName;
         this->symbolType = symbolType;
