@@ -15,10 +15,12 @@ class scopeTable{
     symbolInfo** scopetable;
 
     public:
+    scopeTable* parent;
     scopeTable(int bucketSize,int uid){
         this->bucketSize = bucketSize;
         this->uid = uid;
         this->scopetable = new symbolInfo*[bucketSize]();
+        this->parent = NULL;
     }
 
     unsigned int SDBMHash(string str, unsigned int num_buckets) {
@@ -59,7 +61,7 @@ class scopeTable{
         }else{
             symbolInfo* point = this->scopetable[position];
 
-            while(point->nextSymbol != NULL){
+            while(point != NULL){
                 if(point->getSymbolName() == symbolName){
                     return point;
                 }else{
@@ -78,13 +80,14 @@ class scopeTable{
         }else{
             symbolInfo* currentPoint = this->scopetable[position];
             symbolInfo* prevPoint = NULL;
-            while(currentPoint->nextSymbol != NULL){
+            while(currentPoint != NULL){
                 if(currentPoint->getSymbolName() == symbolName){
-                   if(prevPoint==NULL){  // first node of the table
+                   if(prevPoint == NULL){  // first node of the table
                         if(currentPoint->nextSymbol == NULL){ // only one node
                             this->scopetable[position] = NULL;
                             return true;
                         }else{
+                            cout<<"Symbol from middle node:"<<currentPoint->getSymbolName()<<endl;
                             this->scopetable[position] = currentPoint->nextSymbol;
                             return true;
                         }
@@ -108,8 +111,9 @@ class scopeTable{
         for(int i=0;i<this->bucketSize;i++){
             symbolInfo* symbol = this->scopetable[i];
             cout<<i+1<<"-->";
-            while(symbol->nextSymbol != NULL){
+            while(symbol != NULL){
                cout<<"<"<<symbol->getSymbolName()<<","<<symbol->getSymbolType()<<">"; 
+               symbol = symbol->nextSymbol;
             }
 
             cout<<endl;

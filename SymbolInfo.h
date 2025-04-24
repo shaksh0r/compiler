@@ -16,6 +16,7 @@ class symbolInfo{
     symbolInfo(string symbolName,string symbolType){
         this->symbolName = symbolName;
         this->symbolType = symbolType;
+        this->nextSymbol = NULL;
     }
 
     string getSymbolName(){
