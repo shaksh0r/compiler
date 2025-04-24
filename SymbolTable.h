@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<string>
+#include<fstream>
 #include "ScopeTable.h"
 #include "SymbolInfo.h"
 using namespace std;
@@ -11,10 +12,11 @@ class symbolTable{
     private:
        scopeTable* currentScope;
        scopeTable* stack;
+       ofstream& out;
     public:
-        symbolTable(int scopeSize){
-            this->stack = NULL;
-            this->currentScope = NULL;
+        symbolTable(ofstream& outputFile):out(outputFile){
+            stack = new scopeTable(7,1,outputFile);
+            this->currentScope = stack;
         }
 
         void enterScope(scopeTable* table){
@@ -31,11 +33,14 @@ class symbolTable{
             if(this->currentScope == NULL){
                 return;
             }else{
+                int uid = currentScope->getUid();
                 if(this->currentScope->parent == NULL){
                     this->stack = NULL;
                 }else{
                     this->currentScope = this->currentScope->parent;
                 }
+            
+                out<<'\t'<<"ScopeTable# "<<uid<<" removed"<<endl;
             }
         }
 
@@ -43,8 +48,9 @@ class symbolTable{
             this->currentScope->insert(symbol);
         }
 
-        void removeFromCurrent(string symbolName){
-            int returnCode = this->currentScope->deleteSymbol(symbolName);
+        bool removeFromCurrent(string symbolName){
+            bool returnCode = this->currentScope->deleteSymbol(symbolName);
+            return returnCode;
         }
 
         symbolInfo* lookUp(string symbolName){
@@ -58,12 +64,38 @@ class symbolTable{
 
                 point = point ->parent;
             }
+            out <<'\t'<< "'"<<symbolName<<"' not found in any of the ScopeTables"<<endl;
+            return NULL;
         }
 
         void printCurrentScopeTable(){
             if(this->currentScope != NULL){
-                this->currentScope->print();
+                this->currentScope->printTable("        ");
             }
+        }
+
+        void printAllScopeTables(){
+            string spacing = "", eightSpaces = "        ";
+            scopeTable* point = currentScope;
+            while(point != NULL){
+                spacing = spacing + eightSpaces;
+                point->printTable(spacing);
+                point = point -> parent;
+            }
+        }
+
+        void removeAllScopeTable(){
+            scopeTable* point = currentScope;
+            while(point != NULL && point->parent != NULL){
+                exitScope();
+                point = currentScope;
+            }
+            currentScope = NULL;
+            out<<'\t'<<"ScopeTable# "<<1<<" removed"<<endl;
+        }
+
+        ~symbolTable(){
+            delete stack;
         }
 };
 
