@@ -1,6 +1,6 @@
-#include "SymbolInfo.h"
-#include "SymbolTable.h"
-#include "ScopeTable.h"
+#include "2105079_SymbolInfo.h"
+#include "2105079_SymbolTable.h"
+#include "2105079_ScopeTable.h"
 #include<iostream>
 #include<string>
 #include<fstream>
@@ -42,6 +42,7 @@ int main(int argc, char* argv[]){
                     symbolInfo* symbol = new symbolInfo(second,third);
                     table.insertAtCurrent(symbol);
                 }else{ // wrong input
+                    
                 }
             }
         }else if(first == "L"){

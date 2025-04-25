@@ -2,7 +2,7 @@
 #define SCOPETABLE_H
 
 #include<string>
-#include "SymbolInfo.h"
+#include "2105079_SymbolInfo.h"
 #include<string>
 #include<iostream>
 #include<fstream>
@@ -35,28 +35,34 @@ class scopeTable{
         return this->uid;
     }
     unsigned int SDBMHash(string str, unsigned int num_buckets) {
-         unsigned int hash = 0;
-         unsigned int len = str.length();
-         for (unsigned int i = 0; i < len; i++)
-         {
-         hash = ((str[i]) + (hash << 6) + (hash << 16)- hash) %
-         num_buckets;
-         }
-         return hash;
-    }
-
-    unsigned int charSumHash(string str, unsigned int bucketSize) {
         unsigned int hash = 0;
-        for (char c : str) {
-            hash += c;
+        unsigned int len = str.length();
+        for (unsigned int i = 0; i < len; i++)
+        {
+        hash = ((str[i]) + (hash << 6) + (hash << 16)- hash) %
+        num_buckets;
         }
+        return hash;
+    }
+    // src: http://www.cse.yorku.ca/~oz/hash.html
+    unsigned int DJB2(string str, unsigned int bucketSize) {
+        unsigned long hash = 5381;
+
+        for (char c : str) {
+        hash = ((hash << 5) + hash) + c; 
+        }
+
         return hash % bucketSize;
     }
-    unsigned int weightedCharSumHash(string str, unsigned int bucketSize) {
-        unsigned int hash = 0;
-        for (size_t i = 0; i < str.length(); ++i) {
-            hash += (i + 1) * str[i];  // i + 1 so we don't multiply by 0
+    // src: https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+    unsigned int FNV_1a(string str, unsigned int bucketSize) {
+        unsigned int hash = 2166136261u;
+
+        for (char c : str) {
+            hash ^= static_cast<unsigned int>(c);
+            hash *= 16777619u;
         }
+
         return hash % bucketSize;
     }
     bool duplicate(symbolInfo* firstSymbol,string symbolName){
@@ -85,9 +91,9 @@ class scopeTable{
         if(this->hashfunc == 0)
                 position = SDBMHash(symbol->getSymbolName(),this->bucketSize);
          else if(this->hashfunc == 1)
-                position = charSumHash(symbol->getSymbolName(),this->bucketSize);
+                position = DJB2(symbol->getSymbolName(),this->bucketSize);
          else if(this->hashfunc == 2)
-                position = weightedCharSumHash(symbol->getSymbolName(),this->bucketSize);
+                position = FNV_1a(symbol->getSymbolName(),this->bucketSize);
          else{
             out <<'\t'<<"Incorrect Hash Function"<<endl;
          }
@@ -152,7 +158,6 @@ class scopeTable{
                         }
 
                    }else{
-                        cout<<"Deleted from third if"<<currentPoint->getSymbolName()<<endl;
                         out <<'\t'<<"Deleted '"<<currentPoint->getSymbolName()<<"' from ScopeTable# "<<this->uid<<" at position "<<position+1<<", "<<nodeCount+1<<endl;
                         prevPoint->nextSymbol = currentPoint->nextSymbol;
                         return true;

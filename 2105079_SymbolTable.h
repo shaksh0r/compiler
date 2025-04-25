@@ -4,8 +4,8 @@
 #include<iostream>
 #include<string>
 #include<fstream>
-#include "ScopeTable.h"
-#include "SymbolInfo.h"
+#include "2105079_ScopeTable.h"
+#include "2105079_SymbolInfo.h"
 using namespace std;
 
 class symbolTable{
@@ -98,6 +98,7 @@ class symbolTable{
                 exitScope();
                 point = currentScope;
             }
+            total_collision+= currentScope->collision;
             currentScope = NULL;
             out<<'\t'<<"ScopeTable# "<<1<<" removed"<<endl;
         }
