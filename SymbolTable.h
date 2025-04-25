@@ -13,13 +13,20 @@ class symbolTable{
        scopeTable* currentScope;
        scopeTable* stack;
        ofstream& out;
+       int bucketSize;
     public:
-        symbolTable(ofstream& outputFile):out(outputFile){
-            stack = new scopeTable(7,1,outputFile);
+        int total_collision;
+        int scopeTableCount;
+        symbolTable(ofstream& outputFile,int hashFunction,int bucketSize):out(outputFile){
+            this->bucketSize = bucketSize;
+            stack = new scopeTable(bucketSize,1,outputFile,hashFunction);
             this->currentScope = stack;
+            this->scopeTableCount = 1;
+            this->total_collision = 0;
         }
 
         void enterScope(scopeTable* table){
+            this->scopeTableCount++;
             if(this->currentScope == NULL){
                 this->stack = table;
                 this->currentScope = table;
@@ -30,6 +37,7 @@ class symbolTable{
         }
 
         void exitScope(){
+            this->total_collision+= this->currentScope->collision;
             if(this->currentScope == NULL){
                 return;
             }else{

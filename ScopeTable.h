@@ -14,18 +14,22 @@ class scopeTable{
     private:
     int uid;
     int bucketSize;
+    int hashfunc;
     symbolInfo** scopetable;
     ofstream& out;
 
 
     public:
     scopeTable* parent;
-    scopeTable(int bucketSize,int uid,ofstream& outputFile):out(outputFile){
+    int collision;
+    scopeTable(int bucketSize,int uid,ofstream& outputFile,int hashfunc):out(outputFile){
         this->bucketSize = bucketSize;
         this->uid = uid;
         this->scopetable = new symbolInfo*[bucketSize]();
         this->parent = NULL;
         out<<'\t'<<"ScopeTable# "<<this->uid<<" created"<<endl;
+        this->collision = 0;
+        this->hashfunc = hashfunc;
     }
     int getUid(){
         return this->uid;
@@ -39,6 +43,21 @@ class scopeTable{
          num_buckets;
          }
          return hash;
+    }
+
+    unsigned int charSumHash(string str, unsigned int bucketSize) {
+        unsigned int hash = 0;
+        for (char c : str) {
+            hash += c;
+        }
+        return hash % bucketSize;
+    }
+    unsigned int weightedCharSumHash(string str, unsigned int bucketSize) {
+        unsigned int hash = 0;
+        for (size_t i = 0; i < str.length(); ++i) {
+            hash += (i + 1) * str[i];  // i + 1 so we don't multiply by 0
+        }
+        return hash % bucketSize;
     }
     bool duplicate(symbolInfo* firstSymbol,string symbolName){
         symbolInfo* point = firstSymbol;
@@ -62,9 +81,19 @@ class scopeTable{
         return visitedCount+1;
     }
     void insert(symbolInfo* symbol){
-         int position = SDBMHash(symbol->getSymbolName(),this->bucketSize);
+        int position = 0;
+        if(this->hashfunc == 0)
+                position = SDBMHash(symbol->getSymbolName(),this->bucketSize);
+         else if(this->hashfunc == 1)
+                position = charSumHash(symbol->getSymbolName(),this->bucketSize);
+         else if(this->hashfunc == 2)
+                position = weightedCharSumHash(symbol->getSymbolName(),this->bucketSize);
+         else{
+            out <<'\t'<<"Incorrect Hash Function"<<endl;
+         }
          int visitedCount = 0;
         if(this->scopetable[position] != NULL){
+            this->collision++;
             bool isDuplicate = duplicate(this->scopetable[position],symbol->getSymbolName());
             if(!isDuplicate){ //if there is no duplicate
             visitedCount = insertAtEnd(this->scopetable[position], symbol);

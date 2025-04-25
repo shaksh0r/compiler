@@ -1,0 +1,150 @@
+7
+I main FUNCTION VOID INT STRING
+I count VAR
+L count
+L main
+L undefined_symbol
+S
+I 42 NUMBER
+I student STRUCT STRING name INT age BOOL is_enrolled FLOAT gpa
+I name VAR
+P C
+D count
+D undefined_symbol
+E
+S
+E
+S
+P A
+S
+I > RELOP
+I != RELOP
+P A
+I < RELOP
+P C
+I > RELOP
+I student STRUCT STRING id INT grade
+P A
+D !=
+I student VAR
+D 42
+D
+P A
+L 42
+S
+I a VAR
+I b VAR
+P A
+L student
+E
+I value VAR
+I car UNION INT horsepower BOOL is_convertible STRING make
+S
+I false BOOL
+L unknown
+P A
+E
+E
+E
+S
+P A
+I printf FUNCTION VOID STRING INT
+I temp VAR
+I result VAR
+L printf
+L temp
+S
+I 3.14 NUMBER
+I point STRUCT INT x INT y
+I x VAR
+I y VAR
+P C
+L point
+D x
+P C
+E
+S
+I array ARRAY INT 10
+I matrix ARRAY INT 5 5
+P A
+L array
+S
+I += OPERATOR
+I -= OPERATOR
+I *= OPERATOR
+P C
+D matrix
+I index VAR
+P A
+E
+L matrix
+S
+I compare FUNCTION BOOL INT INT
+I sort FUNCTION VOID ARRAY
+P A
+I MAXSIZE CONSTANT INT
+L MAXSIZE
+D sort
+I sort FUNCTION VOID ARRAY INT
+P C
+E
+S
+I node STRUCT INT data POINTER node next
+I head VAR
+I tail VAR
+P A
+D node
+I node VAR
+L node
+E
+S
+I & OPERATOR
+I | OPERATOR
+I ^ OPERATOR
+P C
+I >> OPERATOR
+I << OPERATOR
+P A
+D |
+L ^
+E
+S
+I true BOOL
+I false BOOL
+I null POINTER
+P A
+E
+I getInput FUNCTION STRING
+I processData FUNCTION VOID STRING
+L getInput
+L null
+P C
+S
+I buffer ARRAY CHAR 256
+P A
+E
+S
+I error ENUM SUCCESS FAILURE TIMEOUT
+P C
+I status VAR
+L error
+D buffer
+P A
+E
+S
+I MAX_ATTEMPTS CONSTANT INT
+I MIN_VALUE CONSTANT INT
+I DEFAULT_SIZE CONSTANT INT
+P A
+L MAX_ATTEMPTS
+E
+S
+I calculate FUNCTION FLOAT FLOAT FLOAT
+I add FUNCTION INT INT INT
+I subtract FUNCTION INT INT INT
+P C
+D calculate
+I calculate FUNCTION FLOAT FLOAT FLOAT CHAR
+P A
+E
+Q

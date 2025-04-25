@@ -1,34 +1,34 @@
 	ScopeTable# 1 created
-Cmd 1: I foo FUNCTION INT INT FLOAT INT
-	Inserted in ScopeTable# 1 at position 7, 1
-Cmd 2: I i VAR
+Cmd 1: I main FUNCTION VOID INT STRING
+	Inserted in ScopeTable# 1 at position 6, 1
+Cmd 2: I count VAR
 	Inserted in ScopeTable# 1 at position 1, 1
-Cmd 3: L i
-	'i' found in ScopeTable# 1 at position 1, 1
-Cmd 4: L i j
-        Number of parameters mismatch for the command L
-Cmd 5: L j
-	'j' not found in any of the ScopeTables
+Cmd 3: L count
+	'count' found in ScopeTable# 1 at position 1, 1
+Cmd 4: L main
+	'main' found in ScopeTable# 1 at position 6, 1
+Cmd 5: L undefined_symbol
+	'undefined_symbol' not found in any of the ScopeTables
 Cmd 6: S
 	ScopeTable# 2 created
-Cmd 7: I 23 NUMBER
-	Inserted in ScopeTable# 2 at position 5, 1
-Cmd 8: I car STRUCT INT n_doors BOOL is_electric STRING brand
-	Inserted in ScopeTable# 2 at position 5, 2
-Cmd 9: I brand VAR
-	Inserted in ScopeTable# 2 at position 4, 1
+Cmd 7: I 42 NUMBER
+	Inserted in ScopeTable# 2 at position 1, 1
+Cmd 8: I student STRUCT STRING name INT age BOOL is_enrolled FLOAT gpa
+	Inserted in ScopeTable# 2 at position 2, 1
+Cmd 9: I name VAR
+	Inserted in ScopeTable# 2 at position 6, 1
 Cmd 10: P C
         ScopeTable# 2
-        1-->
-        2-->
+        1--> <42,NUMBER>
+        2--> <student,STRUCT,{(STRING,name),(INT,age),(BOOL,is_enrolled),(FLOAT,gpa)}>
         3-->
-        4--> <brand,VAR>
-        5--> <23,NUMBER> <car,STRUCT,{(INT,n_doors),(BOOL,is_electric),(STRING,brand)}>
-        6-->
+        4-->
+        5-->
+        6--> <name,VAR>
         7-->
-Cmd 11: D i
+Cmd 11: D count
 	Not found in the current ScopeTable
-Cmd 12: D j
+Cmd 12: D undefined_symbol
 	Not found in the current ScopeTable
 Cmd 13: E
 	ScopeTable# 2 removed
@@ -48,28 +48,28 @@ Cmd 17: P A
         6-->
         7-->
                 ScopeTable# 1
-                1--> <i,VAR>
+                1--> <count,VAR>
                 2-->
                 3-->
                 4-->
                 5-->
-                6-->
-                7--> <foo,FUNCTION,INT<==(INT,FLOAT,INT)>
+                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                7-->
 Cmd 18: S
 	ScopeTable# 5 created
-Cmd 19: I <= RELOP
+Cmd 19: I > RELOP
 	Inserted in ScopeTable# 5 at position 7, 1
-Cmd 20: I == RELOP
+Cmd 20: I != RELOP
 	Inserted in ScopeTable# 5 at position 2, 1
 Cmd 21: P A
         ScopeTable# 5
         1-->
-        2--> <==,RELOP>
+        2--> <!=,RELOP>
         3-->
         4-->
         5-->
         6-->
-        7--> <<=,RELOP>
+        7--> <>,RELOP>
                 ScopeTable# 4
                 1-->
                 2-->
@@ -79,37 +79,37 @@ Cmd 21: P A
                 6-->
                 7-->
                         ScopeTable# 1
-                        1--> <i,VAR>
+                        1--> <count,VAR>
                         2-->
                         3-->
                         4-->
                         5-->
-                        6-->
-                        7--> <foo,FUNCTION,INT<==(INT,FLOAT,INT)>
-Cmd 22: I >= RELOP
-	Inserted in ScopeTable# 5 at position 4, 1
+                        6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                        7-->
+Cmd 22: I < RELOP
+	Inserted in ScopeTable# 5 at position 5, 1
 Cmd 23: P C
         ScopeTable# 5
         1-->
-        2--> <==,RELOP>
+        2--> <!=,RELOP>
         3-->
-        4--> <>=,RELOP>
-        5-->
+        4-->
+        5--> <<,RELOP>
         6-->
-        7--> <<=,RELOP>
-Cmd 24: I <= RELOP
-	'<=' already exists in the current ScopeTable
-Cmd 25: I foo STRUCT INT a FLOAT b
-	Inserted in ScopeTable# 5 at position 7, 2
+        7--> <>,RELOP>
+Cmd 24: I > RELOP
+	'>' already exists in the current ScopeTable
+Cmd 25: I student STRUCT STRING id INT grade
+	Inserted in ScopeTable# 5 at position 2, 2
 Cmd 26: P A
         ScopeTable# 5
         1-->
-        2--> <==,RELOP>
+        2--> <!=,RELOP> <student,STRUCT,{(STRING,id),(INT,grade)}>
         3-->
-        4--> <>=,RELOP>
-        5-->
+        4-->
+        5--> <<,RELOP>
         6-->
-        7--> <<=,RELOP> <foo,STRUCT,{(INT,a),(FLOAT,b)}>
+        7--> <>,RELOP>
                 ScopeTable# 4
                 1-->
                 2-->
@@ -119,30 +119,30 @@ Cmd 26: P A
                 6-->
                 7-->
                         ScopeTable# 1
-                        1--> <i,VAR>
+                        1--> <count,VAR>
                         2-->
                         3-->
                         4-->
                         5-->
-                        6-->
-                        7--> <foo,FUNCTION,INT<==(INT,FLOAT,INT)>
-Cmd 27: D ==
-	Deleted '==' from ScopeTable# 5 at position 2, 1
-Cmd 28: I foo VAR
-	'foo' already exists in the current ScopeTable
-Cmd 29: D 23
+                        6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                        7-->
+Cmd 27: D !=
+	Deleted '!=' from ScopeTable# 5 at position 2, 1
+Cmd 28: I student VAR
+	'student' already exists in the current ScopeTable
+Cmd 29: D 42
 	Not found in the current ScopeTable
 Cmd 30: D
 	Number of parameters mismatch for the command D
 Cmd 31: P A
         ScopeTable# 5
         1-->
-        2-->
+        2--> <student,STRUCT,{(STRING,id),(INT,grade)}>
         3-->
-        4--> <>=,RELOP>
-        5-->
+        4-->
+        5--> <<,RELOP>
         6-->
-        7--> <<=,RELOP> <foo,STRUCT,{(INT,a),(FLOAT,b)}>
+        7--> <>,RELOP>
                 ScopeTable# 4
                 1-->
                 2-->
@@ -152,38 +152,85 @@ Cmd 31: P A
                 6-->
                 7-->
                         ScopeTable# 1
-                        1--> <i,VAR>
+                        1--> <count,VAR>
+                        2-->
+                        3-->
+                        4-->
+                        5-->
+                        6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                        7-->
+Cmd 32: L 42
+	'42' not found in any of the ScopeTables
+Cmd 33: S
+	ScopeTable# 6 created
+Cmd 34: I a VAR
+	Inserted in ScopeTable# 6 at position 7, 1
+Cmd 35: I b VAR
+	Inserted in ScopeTable# 6 at position 1, 1
+Cmd 36: P A
+        ScopeTable# 6
+        1--> <b,VAR>
+        2-->
+        3-->
+        4-->
+        5-->
+        6-->
+        7--> <a,VAR>
+                ScopeTable# 5
+                1-->
+                2--> <student,STRUCT,{(STRING,id),(INT,grade)}>
+                3-->
+                4-->
+                5--> <<,RELOP>
+                6-->
+                7--> <>,RELOP>
+                        ScopeTable# 4
+                        1-->
                         2-->
                         3-->
                         4-->
                         5-->
                         6-->
-                        7--> <foo,FUNCTION,INT<==(INT,FLOAT,INT)>
-Cmd 32: L 23
-	'23' not found in any of the ScopeTables
-Cmd 33: S
-	ScopeTable# 6 created
-Cmd 34: I x VAR
-	Inserted in ScopeTable# 6 at position 2, 1
-Cmd 35: I y VAR
-	Inserted in ScopeTable# 6 at position 3, 1
-Cmd 36: P A
-        ScopeTable# 6
-        1-->
-        2--> <x,VAR>
-        3--> <y,VAR>
+                        7-->
+                                ScopeTable# 1
+                                1--> <count,VAR>
+                                2-->
+                                3-->
+                                4-->
+                                5-->
+                                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                                7-->
+Cmd 37: L student
+	'student' found in ScopeTable# 5 at position 2, 1
+Cmd 38: E
+	ScopeTable# 6 removed
+Cmd 39: I value VAR
+	Inserted in ScopeTable# 5 at position 2, 2
+Cmd 40: I car UNION INT horsepower BOOL is_convertible STRING make
+	Inserted in ScopeTable# 5 at position 5, 2
+Cmd 41: S
+	ScopeTable# 7 created
+Cmd 42: I false BOOL
+	Inserted in ScopeTable# 7 at position 1, 1
+Cmd 43: L unknown
+	'unknown' not found in any of the ScopeTables
+Cmd 44: P A
+        ScopeTable# 7
+        1--> <false,BOOL>
+        2-->
+        3-->
         4-->
         5-->
         6-->
         7-->
                 ScopeTable# 5
                 1-->
-                2-->
+                2--> <student,STRUCT,{(STRING,id),(INT,grade)}> <value,VAR>
                 3-->
-                4--> <>=,RELOP>
-                5-->
+                4-->
+                5--> <<,RELOP> <car,UNION,{(INT,horsepower),(BOOL,is_convertible),(STRING,make)}>
                 6-->
-                7--> <<=,RELOP> <foo,STRUCT,{(INT,a),(FLOAT,b)}>
+                7--> <>,RELOP>
                         ScopeTable# 4
                         1-->
                         2-->
@@ -193,60 +240,13 @@ Cmd 36: P A
                         6-->
                         7-->
                                 ScopeTable# 1
-                                1--> <i,VAR>
+                                1--> <count,VAR>
                                 2-->
                                 3-->
                                 4-->
                                 5-->
-                                6-->
-                                7--> <foo,FUNCTION,INT<==(INT,FLOAT,INT)>
-Cmd 37: L foo
-	'foo' found in ScopeTable# 5 at position 7, 2
-Cmd 38: E
-	ScopeTable# 6 removed
-Cmd 39: I num VAR
-	Inserted in ScopeTable# 5 at position 7, 3
-Cmd 40: I bicycle UNION INT n_gears BOOL is_hydrolic_brake STRING brand
-	Inserted in ScopeTable# 5 at position 4, 2
-Cmd 41: S
-	ScopeTable# 7 created
-Cmd 42: I true BOOL
-	Inserted in ScopeTable# 7 at position 5, 1
-Cmd 43: L a
-	'a' not found in any of the ScopeTables
-Cmd 44: P A
-        ScopeTable# 7
-        1-->
-        2-->
-        3-->
-        4-->
-        5--> <true,BOOL>
-        6-->
-        7-->
-                ScopeTable# 5
-                1-->
-                2-->
-                3-->
-                4--> <>=,RELOP> <bicycle,UNION,{(INT,n_gears),(BOOL,is_hydrolic_brake),(STRING,brand)}>
-                5-->
-                6-->
-                7--> <<=,RELOP> <foo,STRUCT,{(INT,a),(FLOAT,b)}> <num,VAR>
-                        ScopeTable# 4
-                        1-->
-                        2-->
-                        3-->
-                        4-->
-                        5-->
-                        6-->
-                        7-->
-                                ScopeTable# 1
-                                1--> <i,VAR>
-                                2-->
-                                3-->
-                                4-->
-                                5-->
-                                6-->
-                                7--> <foo,FUNCTION,INT<==(INT,FLOAT,INT)>
+                                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                                7-->
 Cmd 45: E
 	ScopeTable# 7 removed
 Cmd 46: E
@@ -265,13 +265,562 @@ Cmd 49: P A
         6-->
         7-->
                 ScopeTable# 1
-                1--> <i,VAR>
+                1--> <count,VAR>
+                2-->
+                3-->
+                4-->
+                5-->
+                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                7-->
+Cmd 50: I printf FUNCTION VOID STRING INT
+	Inserted in ScopeTable# 8 at position 2, 1
+Cmd 51: I temp VAR
+	Inserted in ScopeTable# 8 at position 4, 1
+Cmd 52: I result VAR
+	Inserted in ScopeTable# 8 at position 6, 1
+Cmd 53: L printf
+	'printf' found in ScopeTable# 8 at position 2, 1
+Cmd 54: L temp
+	'temp' found in ScopeTable# 8 at position 4, 1
+Cmd 55: S
+	ScopeTable# 9 created
+Cmd 56: I 3.14 NUMBER
+	Inserted in ScopeTable# 9 at position 1, 1
+Cmd 57: I point STRUCT INT x INT y
+	Inserted in ScopeTable# 9 at position 7, 1
+Cmd 58: I x VAR
+	Inserted in ScopeTable# 9 at position 2, 1
+Cmd 59: I y VAR
+	Inserted in ScopeTable# 9 at position 3, 1
+Cmd 60: P C
+        ScopeTable# 9
+        1--> <3.14,NUMBER>
+        2--> <x,VAR>
+        3--> <y,VAR>
+        4-->
+        5-->
+        6-->
+        7--> <point,STRUCT,{(INT,x),(INT,y)}>
+Cmd 61: L point
+	'point' found in ScopeTable# 9 at position 7, 1
+Cmd 62: D x
+	Deleted 'x' from ScopeTable# 9 at position 2, 1
+Cmd 63: P C
+        ScopeTable# 9
+        1--> <3.14,NUMBER>
+        2-->
+        3--> <y,VAR>
+        4-->
+        5-->
+        6-->
+        7--> <point,STRUCT,{(INT,x),(INT,y)}>
+Cmd 64: E
+	ScopeTable# 9 removed
+Cmd 65: S
+	ScopeTable# 10 created
+Cmd 66: I array ARRAY INT 10
+Cmd 67: I matrix ARRAY INT 5 5
+Cmd 68: P A
+        ScopeTable# 10
+        1-->
+        2-->
+        3-->
+        4-->
+        5-->
+        6-->
+        7-->
+                ScopeTable# 8
+                1-->
+                2--> <printf,FUNCTION,VOID<==(STRING,INT)>
+                3-->
+                4--> <temp,VAR>
+                5-->
+                6--> <result,VAR>
+                7-->
+                        ScopeTable# 1
+                        1--> <count,VAR>
+                        2-->
+                        3-->
+                        4-->
+                        5-->
+                        6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                        7-->
+Cmd 69: L array
+	'array' not found in any of the ScopeTables
+Cmd 70: S
+	ScopeTable# 11 created
+Cmd 71: I += OPERATOR
+	Inserted in ScopeTable# 11 at position 1, 1
+Cmd 72: I -= OPERATOR
+	Inserted in ScopeTable# 11 at position 5, 1
+Cmd 73: I *= OPERATOR
+	Inserted in ScopeTable# 11 at position 6, 1
+Cmd 74: P C
+        ScopeTable# 11
+        1--> <+=,OPERATOR>
+        2-->
+        3-->
+        4-->
+        5--> <-=,OPERATOR>
+        6--> <*=,OPERATOR>
+        7-->
+Cmd 75: D matrix
+	Not found in the current ScopeTable
+Cmd 76: I index VAR
+	Inserted in ScopeTable# 11 at position 7, 1
+Cmd 77: P A
+        ScopeTable# 11
+        1--> <+=,OPERATOR>
+        2-->
+        3-->
+        4-->
+        5--> <-=,OPERATOR>
+        6--> <*=,OPERATOR>
+        7--> <index,VAR>
+                ScopeTable# 10
+                1-->
                 2-->
                 3-->
                 4-->
                 5-->
                 6-->
-                7--> <foo,FUNCTION,INT<==(INT,FLOAT,INT)>
-Cmd 50: Q
+                7-->
+                        ScopeTable# 8
+                        1-->
+                        2--> <printf,FUNCTION,VOID<==(STRING,INT)>
+                        3-->
+                        4--> <temp,VAR>
+                        5-->
+                        6--> <result,VAR>
+                        7-->
+                                ScopeTable# 1
+                                1--> <count,VAR>
+                                2-->
+                                3-->
+                                4-->
+                                5-->
+                                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                                7-->
+Cmd 78: E
+	ScopeTable# 11 removed
+Cmd 79: L matrix
+	'matrix' not found in any of the ScopeTables
+Cmd 80: S
+	ScopeTable# 12 created
+Cmd 81: I compare FUNCTION BOOL INT INT
+	Inserted in ScopeTable# 12 at position 2, 1
+Cmd 82: I sort FUNCTION VOID ARRAY
+	Inserted in ScopeTable# 12 at position 1, 1
+Cmd 83: P A
+        ScopeTable# 12
+        1--> <sort,FUNCTION,VOID<==(ARRAY)>
+        2--> <compare,FUNCTION,BOOL<==(INT,INT)>
+        3-->
+        4-->
+        5-->
+        6-->
+        7-->
+                ScopeTable# 10
+                1-->
+                2-->
+                3-->
+                4-->
+                5-->
+                6-->
+                7-->
+                        ScopeTable# 8
+                        1-->
+                        2--> <printf,FUNCTION,VOID<==(STRING,INT)>
+                        3-->
+                        4--> <temp,VAR>
+                        5-->
+                        6--> <result,VAR>
+                        7-->
+                                ScopeTable# 1
+                                1--> <count,VAR>
+                                2-->
+                                3-->
+                                4-->
+                                5-->
+                                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                                7-->
+Cmd 84: I MAXSIZE CONSTANT INT
+Cmd 85: L MAXSIZE
+	'MAXSIZE' not found in any of the ScopeTables
+Cmd 86: D sort
+	Deleted 'sort' from ScopeTable# 12 at position 1, 1
+Cmd 87: I sort FUNCTION VOID ARRAY INT
+	Inserted in ScopeTable# 12 at position 1, 1
+Cmd 88: P C
+        ScopeTable# 12
+        1--> <sort,FUNCTION,VOID<==(ARRAY,INT)>
+        2--> <compare,FUNCTION,BOOL<==(INT,INT)>
+        3-->
+        4-->
+        5-->
+        6-->
+        7-->
+Cmd 89: E
+	ScopeTable# 12 removed
+Cmd 90: S
+	ScopeTable# 13 created
+Cmd 91: I node STRUCT INT data POINTER node next
+	Inserted in ScopeTable# 13 at position 2, 1
+Cmd 92: I head VAR
+	Inserted in ScopeTable# 13 at position 5, 1
+Cmd 93: I tail VAR
+	Inserted in ScopeTable# 13 at position 4, 1
+Cmd 94: P A
+        ScopeTable# 13
+        1-->
+        2--> <node,STRUCT,{(INT,data),(POINTER,node)}>
+        3-->
+        4--> <tail,VAR>
+        5--> <head,VAR>
+        6-->
+        7-->
+                ScopeTable# 10
+                1-->
+                2-->
+                3-->
+                4-->
+                5-->
+                6-->
+                7-->
+                        ScopeTable# 8
+                        1-->
+                        2--> <printf,FUNCTION,VOID<==(STRING,INT)>
+                        3-->
+                        4--> <temp,VAR>
+                        5-->
+                        6--> <result,VAR>
+                        7-->
+                                ScopeTable# 1
+                                1--> <count,VAR>
+                                2-->
+                                3-->
+                                4-->
+                                5-->
+                                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                                7-->
+Cmd 95: D node
+	Deleted 'node' from ScopeTable# 13 at position 2, 1
+Cmd 96: I node VAR
+	Inserted in ScopeTable# 13 at position 2, 1
+Cmd 97: L node
+	'node' found in ScopeTable# 13 at position 2, 1
+Cmd 98: E
+	ScopeTable# 13 removed
+Cmd 99: S
+	ScopeTable# 14 created
+Cmd 100: I & OPERATOR
+	Inserted in ScopeTable# 14 at position 4, 1
+Cmd 101: I | OPERATOR
+	Inserted in ScopeTable# 14 at position 6, 1
+Cmd 102: I ^ OPERATOR
+	Inserted in ScopeTable# 14 at position 4, 2
+Cmd 103: P C
+        ScopeTable# 14
+        1-->
+        2-->
+        3-->
+        4--> <&,OPERATOR> <^,OPERATOR>
+        5-->
+        6--> <|,OPERATOR>
+        7-->
+Cmd 104: I >> OPERATOR
+	Inserted in ScopeTable# 14 at position 5, 1
+Cmd 105: I << OPERATOR
+	Inserted in ScopeTable# 14 at position 6, 2
+Cmd 106: P A
+        ScopeTable# 14
+        1-->
+        2-->
+        3-->
+        4--> <&,OPERATOR> <^,OPERATOR>
+        5--> <>>,OPERATOR>
+        6--> <|,OPERATOR> <<<,OPERATOR>
+        7-->
+                ScopeTable# 10
+                1-->
+                2-->
+                3-->
+                4-->
+                5-->
+                6-->
+                7-->
+                        ScopeTable# 8
+                        1-->
+                        2--> <printf,FUNCTION,VOID<==(STRING,INT)>
+                        3-->
+                        4--> <temp,VAR>
+                        5-->
+                        6--> <result,VAR>
+                        7-->
+                                ScopeTable# 1
+                                1--> <count,VAR>
+                                2-->
+                                3-->
+                                4-->
+                                5-->
+                                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                                7-->
+Cmd 107: D |
+	Deleted '|' from ScopeTable# 14 at position 6, 1
+Cmd 108: L ^
+	'^' found in ScopeTable# 14 at position 4, 2
+Cmd 109: E
+	ScopeTable# 14 removed
+Cmd 110: S
+	ScopeTable# 15 created
+Cmd 111: I true BOOL
+	Inserted in ScopeTable# 15 at position 5, 1
+Cmd 112: I false BOOL
+	Inserted in ScopeTable# 15 at position 1, 1
+Cmd 113: I null POINTER
+	Inserted in ScopeTable# 15 at position 7, 1
+Cmd 114: P A
+        ScopeTable# 15
+        1--> <false,BOOL>
+        2-->
+        3-->
+        4-->
+        5--> <true,BOOL>
+        6-->
+        7--> <null,POINTER>
+                ScopeTable# 10
+                1-->
+                2-->
+                3-->
+                4-->
+                5-->
+                6-->
+                7-->
+                        ScopeTable# 8
+                        1-->
+                        2--> <printf,FUNCTION,VOID<==(STRING,INT)>
+                        3-->
+                        4--> <temp,VAR>
+                        5-->
+                        6--> <result,VAR>
+                        7-->
+                                ScopeTable# 1
+                                1--> <count,VAR>
+                                2-->
+                                3-->
+                                4-->
+                                5-->
+                                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                                7-->
+Cmd 115: E
+	ScopeTable# 15 removed
+Cmd 116: I getInput FUNCTION STRING
+	Inserted in ScopeTable# 10 at position 6, 1
+Cmd 117: I processData FUNCTION VOID STRING
+	Inserted in ScopeTable# 10 at position 2, 1
+Cmd 118: L getInput
+	'getInput' found in ScopeTable# 10 at position 6, 1
+Cmd 119: L null
+	'null' not found in any of the ScopeTables
+Cmd 120: P C
+        ScopeTable# 10
+        1-->
+        2--> <processData,FUNCTION,VOID<==(STRING)>
+        3-->
+        4-->
+        5-->
+        6--> <getInput,FUNCTION,STRING<==()>
+        7-->
+Cmd 121: S
+	ScopeTable# 16 created
+Cmd 122: I buffer ARRAY CHAR 256
+Cmd 123: P A
+        ScopeTable# 16
+        1-->
+        2-->
+        3-->
+        4-->
+        5-->
+        6-->
+        7-->
+                ScopeTable# 10
+                1-->
+                2--> <processData,FUNCTION,VOID<==(STRING)>
+                3-->
+                4-->
+                5-->
+                6--> <getInput,FUNCTION,STRING<==()>
+                7-->
+                        ScopeTable# 8
+                        1-->
+                        2--> <printf,FUNCTION,VOID<==(STRING,INT)>
+                        3-->
+                        4--> <temp,VAR>
+                        5-->
+                        6--> <result,VAR>
+                        7-->
+                                ScopeTable# 1
+                                1--> <count,VAR>
+                                2-->
+                                3-->
+                                4-->
+                                5-->
+                                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                                7-->
+Cmd 124: E
+	ScopeTable# 16 removed
+Cmd 125: S
+	ScopeTable# 17 created
+Cmd 126: I error ENUM SUCCESS FAILURE TIMEOUT
+Cmd 127: P C
+        ScopeTable# 17
+        1-->
+        2-->
+        3-->
+        4-->
+        5-->
+        6-->
+        7-->
+Cmd 128: I status VAR
+	Inserted in ScopeTable# 17 at position 7, 1
+Cmd 129: L error
+	'error' not found in any of the ScopeTables
+Cmd 130: D buffer
+	Not found in the current ScopeTable
+Cmd 131: P A
+        ScopeTable# 17
+        1-->
+        2-->
+        3-->
+        4-->
+        5-->
+        6-->
+        7--> <status,VAR>
+                ScopeTable# 10
+                1-->
+                2--> <processData,FUNCTION,VOID<==(STRING)>
+                3-->
+                4-->
+                5-->
+                6--> <getInput,FUNCTION,STRING<==()>
+                7-->
+                        ScopeTable# 8
+                        1-->
+                        2--> <printf,FUNCTION,VOID<==(STRING,INT)>
+                        3-->
+                        4--> <temp,VAR>
+                        5-->
+                        6--> <result,VAR>
+                        7-->
+                                ScopeTable# 1
+                                1--> <count,VAR>
+                                2-->
+                                3-->
+                                4-->
+                                5-->
+                                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                                7-->
+Cmd 132: E
+	ScopeTable# 17 removed
+Cmd 133: S
+	ScopeTable# 18 created
+Cmd 134: I MAX_ATTEMPTS CONSTANT INT
+Cmd 135: I MIN_VALUE CONSTANT INT
+Cmd 136: I DEFAULT_SIZE CONSTANT INT
+Cmd 137: P A
+        ScopeTable# 18
+        1-->
+        2-->
+        3-->
+        4-->
+        5-->
+        6-->
+        7-->
+                ScopeTable# 10
+                1-->
+                2--> <processData,FUNCTION,VOID<==(STRING)>
+                3-->
+                4-->
+                5-->
+                6--> <getInput,FUNCTION,STRING<==()>
+                7-->
+                        ScopeTable# 8
+                        1-->
+                        2--> <printf,FUNCTION,VOID<==(STRING,INT)>
+                        3-->
+                        4--> <temp,VAR>
+                        5-->
+                        6--> <result,VAR>
+                        7-->
+                                ScopeTable# 1
+                                1--> <count,VAR>
+                                2-->
+                                3-->
+                                4-->
+                                5-->
+                                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                                7-->
+Cmd 138: L MAX_ATTEMPTS
+	'MAX_ATTEMPTS' not found in any of the ScopeTables
+Cmd 139: E
+	ScopeTable# 18 removed
+Cmd 140: S
+	ScopeTable# 19 created
+Cmd 141: I calculate FUNCTION FLOAT FLOAT FLOAT
+	Inserted in ScopeTable# 19 at position 2, 1
+Cmd 142: I add FUNCTION INT INT INT
+	Inserted in ScopeTable# 19 at position 3, 1
+Cmd 143: I subtract FUNCTION INT INT INT
+	Inserted in ScopeTable# 19 at position 3, 2
+Cmd 144: P C
+        ScopeTable# 19
+        1-->
+        2--> <calculate,FUNCTION,FLOAT<==(FLOAT,FLOAT)>
+        3--> <add,FUNCTION,INT<==(INT,INT)> <subtract,FUNCTION,INT<==(INT,INT)>
+        4-->
+        5-->
+        6-->
+        7-->
+Cmd 145: D calculate
+	Deleted 'calculate' from ScopeTable# 19 at position 2, 1
+Cmd 146: I calculate FUNCTION FLOAT FLOAT FLOAT CHAR
+	Inserted in ScopeTable# 19 at position 2, 1
+Cmd 147: P A
+        ScopeTable# 19
+        1-->
+        2--> <calculate,FUNCTION,FLOAT<==(FLOAT,FLOAT,CHAR)>
+        3--> <add,FUNCTION,INT<==(INT,INT)> <subtract,FUNCTION,INT<==(INT,INT)>
+        4-->
+        5-->
+        6-->
+        7-->
+                ScopeTable# 10
+                1-->
+                2--> <processData,FUNCTION,VOID<==(STRING)>
+                3-->
+                4-->
+                5-->
+                6--> <getInput,FUNCTION,STRING<==()>
+                7-->
+                        ScopeTable# 8
+                        1-->
+                        2--> <printf,FUNCTION,VOID<==(STRING,INT)>
+                        3-->
+                        4--> <temp,VAR>
+                        5-->
+                        6--> <result,VAR>
+                        7-->
+                                ScopeTable# 1
+                                1--> <count,VAR>
+                                2-->
+                                3-->
+                                4-->
+                                5-->
+                                6--> <main,FUNCTION,VOID<==(INT,STRING)>
+                                7-->
+Cmd 148: E
+	ScopeTable# 19 removed
+Cmd 149: Q
+	ScopeTable# 10 removed
 	ScopeTable# 8 removed
 	ScopeTable# 1 removed

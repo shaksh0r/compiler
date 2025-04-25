@@ -1,29 +1,38 @@
 #include "SymbolInfo.h"
-#include "SymbolTable.h"
 #include "ScopeTable.h"
+#include "SymbolTable.h"
 #include<iostream>
 #include<string>
 #include<fstream>
-#include<sstream>
+
 using namespace std;
 
 int main(int argc, char* argv[]){
+    int hash_function = 0;
+    if(argc<3) return 0;
+    if(argv[1]=="" || argv[2]=="") return 0;
 
-    if(argc < 3) return 0;
-    if(argv[1] == "" || argv[2] == "") return 0;
+    if(argc == 3){
+        hash_function = 0;
+    }else{
+        hash_function = stoi(argv[3]);
+    }
 
     string input_file = argv[1], output_file = argv[2];
-    ifstream fileIn(input_file);
-    ofstream fileOut(output_file);
 
+    ofstream reportOut(output_file);
+    ofstream out("output.txt");
+    ifstream in(input_file);
+
+    
     string s;
-    getline(fileIn,s);
+    getline(in,s);
     int bucket_size = stoi(s);
-    symbolTable table = symbolTable(fileOut,0,bucket_size);
+    symbolTable table = symbolTable(out,0,bucket_size);
     int lineCount = 0,scopeTableCount = 1;
-    while(getline(fileIn,s)){
+    while(getline(in,s)){
         //reading the first input
-        fileOut << "Cmd "<<lineCount+1 <<": "<<s<<endl;
+        out << "Cmd "<<lineCount+1 <<": "<<s<<endl;
         stringstream ss(s);
         string first;
         ss >> first;
@@ -51,13 +60,13 @@ int main(int argc, char* argv[]){
             if(rest == ""){ //all ok
                 symbolInfo* result = table.lookUp(second);
             }else{ // wrong input
-                fileOut<<'\t'<<"Number of parameters mismatch for the command L"<<endl;
+                out<<'\t'<<"Number of parameters mismatch for the command L"<<endl;
             }
         }else if(first == "D"){
             ss >> second;
             getline(ss,rest);
             if(second == ""){
-                fileOut<<'\t'<<"Number of parameters mismatch for the command D"<<endl;
+                out<<'\t'<<"Number of parameters mismatch for the command D"<<endl;
             }else{
                 if(rest == ""){ //all ok
                     bool deleteConfirmation = table.removeFromCurrent(second); 
@@ -84,7 +93,7 @@ int main(int argc, char* argv[]){
             getline(ss,rest);
             if(rest == ""){ //all ok
                 scopeTableCount++;
-                scopeTable* scope = new scopeTable(bucket_size,scopeTableCount,fileOut,0);
+                scopeTable* scope = new scopeTable(bucket_size,scopeTableCount,out,0);
                 table.enterScope(scope);
             }else{ // wrong input
             }
@@ -98,9 +107,40 @@ int main(int argc, char* argv[]){
         }else if(first == "Q"){
             table.removeAllScopeTable();
         }else{ // wrong input
-        }
+        }   
+
+
 
         lineCount++;
     }
 
+    int total_collision = table.total_collision;
+    int total_table = table.scopeTableCount;
+
+    int collision_mean = (total_collision/(bucket_size*total_table));
+
+    cout<< total_collision<<" "<<total_table<<" "<<collision_mean<<endl;
+
+    if(hash_function == 0){
+        reportOut<<"\t\t\t\t"<<"Report For SDBMhash"<<"\t\t\t\t"<<endl;
+        reportOut<<"\t\t\t\t"<<"____________________"<<"\t\t\t\t"<<endl;
+
+        reportOut<<"\t\t\t\t"<<"Mean Ratio:"<<"\t\t"<<collision_mean<<"\t\t\t\t"<<endl;
+    }else if(hash_function == 1){
+        reportOut<<"\t\t\t\t"<<"Report For CharSumhash"<<"\t\t\t\t"<<endl;
+        reportOut<<"\t\t\t\t"<<"____________________"<<"\t\t\t\t"<<endl;
+
+        reportOut<<"\t\t\t\t"<<"Mean Ratio:"<<"\t\t"<<collision_mean<<"\t\t\t\t"<<endl;
+
+    }else if(hash_function == 2){
+        reportOut<<"\t\t\t\t"<<"Report For WeightedCharSumhash"<<"\t\t\t\t"<<endl;
+        reportOut<<"\t\t\t\t"<<"____________________"<<"\t\t\t\t"<<endl;
+
+        reportOut<<"\t\t\t\t"<<"Mean Ratio:"<<"\t\t"<<collision_mean<<"\t\t\t\t"<<endl;
+
+    }
+
+
+    
+    
 }
